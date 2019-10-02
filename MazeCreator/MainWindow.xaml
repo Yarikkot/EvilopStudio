@@ -1,0 +1,56 @@
+﻿<Window x:Class="MazeCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MazeCreator"
+        mc:Ignorable="d"
+        Title="The Erast's Candle"  SizeToContent="WidthAndHeight" 
+         >
+    <!--Width="330" Height="354">-->
+    <Window.Resources>
+        <local:ConverValueToColor x:Key="ValueToColor" ></local:ConverValueToColor>
+        <local:ConverIndexToMargin x:Key="IndexToMargin" ></local:ConverIndexToMargin>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto" ></RowDefinition>
+        </Grid.RowDefinitions>
+   
+        <ItemsControl Name="IC"   ItemsSource="{Binding}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Top" Value="{Binding i, Converter={StaticResource IndexToMargin}}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding j, Converter={StaticResource IndexToMargin}}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Width="15" Height="15" >
+                        <Rectangle.Style>
+                            <Style>
+                                <Setter Property="Rectangle.Fill" Value="{Binding Value,  Converter={StaticResource ValueToColor}}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCur}" Value="true">
+                                        <Setter Property="Rectangle.Fill" Value="OrangeRed">
+                                            
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Button Name="But" Click="Button_Click">ReBuild</Button>
+        </StackPanel>
+    </Grid>
+</Window>
